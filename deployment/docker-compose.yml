@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: pg_database
+    image: postgres:12.4-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pg_password
+    volumes:
+      - ../.data/postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  adminer:
+    container_name: adminer
+    image: dockette/adminer:full
+    restart: always
+    ports:
+      - '5051:80'
+
+  redis:
+    container_name: redis
+    image: redis:6.2.6-alpine
+    restart: always
+    command: redis-server --requirepass redis_password --loglevel warning
+    ports:
+      - '6379:6379'
